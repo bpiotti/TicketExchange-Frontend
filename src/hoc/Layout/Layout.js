@@ -5,15 +5,15 @@ import Toolbar from '../../components/Navigation/Toolbar/Toolbar.js'
 import './Layout.css'
 
 class Layout extends React.Component {
-    render () {
+    render() {
         return (
             <Aux>
-                <Toolbar/>
+                <Toolbar />
                 <main className="Content">
                     {this.props.children}
                 </main>
             </Aux>
-            )
+        );
     }
 }
 
