@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 
 import './App.css';
-import Layout from './hoc/Layout/Layout.js';
-import HomePage from './components/Home/HomePage.js'
+import Layout from './hoc/Layout/Layout';
+import HomePage from './components/Home/HomePage'
+import TicketExchange from './containers/TicketExchange/TicketExchange'
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 
 class App extends Component {
   render() {
     const routes = (
       <Switch>
-        <Route path="/ticket-exchange"></Route>
+        <Route path="/ticket-exchange" component={TicketExchange}></Route>
         <Route path="/" component={HomePage}></Route>
         <Redirect to="/"></Redirect>
       </Switch>
