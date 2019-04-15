@@ -1,3 +1,12 @@
-h3 {
+.HomePage {
+    display: block;
+}
+
+.HomePage h1 {
     color: #212121;
+    /* background-color: #BDBDBD; */
+    margin-bottom: 50px;
+    height: 50px;
+    text-align: center;
+    font-size: 45px;
 }

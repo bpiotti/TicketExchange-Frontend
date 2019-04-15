@@ -1,10 +1,16 @@
 import React from 'react'
-import Aux from '../../hoc/Aux/Aux'
+
+import "./HomePage.css"
+import PhotoSlider from '../Slider/PhotoSlider'
 
 const homePage = () => (
-    <Aux>
-        <h3>homePage</h3>
-    </Aux>
+    <div className="HomePage">
+        <h1>Welcome to the Ticket Exchange</h1>
+        <PhotoSlider />
+        <div style={{height: '500px', width: '100%', backgroundColor: '#CFD8DC'}}>
+
+        </div>
+    </div>
 
 );
 
