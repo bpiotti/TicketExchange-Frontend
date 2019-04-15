@@ -3,11 +3,7 @@ import Aux from '../../hoc/Aux/Aux'
 
 const homePage = () => (
     <Aux>
-        <h3>Hello</h3>
-        <h3>Hello</h3>
-        <h3>Hello</h3>
-        <h3>Hello</h3>
-        <h3>Hello</h3>
+        <h3>homePage</h3>
     </Aux>
 
 );
