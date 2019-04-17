@@ -32,7 +32,8 @@ class PhotoSlider extends React.Component {
                     {images.map((image, key) =>
                         <div className="l" style={{
                             backgroundImage: `url(${image})`,
-                        }}>
+                        }}
+                            key={key}>
                             <img src={image} alt={key} style={{
                                 height: '400px',
                                 width: '800px',
