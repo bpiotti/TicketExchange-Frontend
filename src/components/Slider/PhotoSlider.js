@@ -10,16 +10,16 @@ import '../../../node_modules/slick-carousel/slick/slick.css';
 
 
 class PhotoSlider extends React.Component {
-    ;
     render() {
         const sliderSettings = {
             dots: true,
             infinite: true,
             speed: 500,
-            slidesToShow: 3,
+            slidesToShow: 1,
             slidesToScroll: 1,
             fade: true,
-            
+            autoplay: true,
+            autoplaySpeed: 4000,
         };
         const images = [
             mackeyLights,

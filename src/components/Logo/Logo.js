@@ -1,11 +1,11 @@
 import React from 'react';
 
-import companyLogo from '../../Assets/Images/logo.png';
+import ticket from '../../Assets/Images/ticket.png';
 import  './Logo.css';
 
 const logo = (props) => (
     <div className="Logo" style={{height: props.height}}>
-        <img src={companyLogo} alt="logo"/>
+        <img src={ticket} alt="logo" />
     </div>
 );
 

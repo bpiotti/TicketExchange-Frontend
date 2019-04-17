@@ -8,5 +8,37 @@
     margin-bottom: 50px;
     height: 50px;
     text-align: center;
-    font-size: 45px;
+    font-size: 40px;
+}
+
+.SecondSection {
+    height: 400px;
+    width: 100%;
+    background-color: #CFD8DC;
+}
+
+.SecondSection h1 {
+    margin: auto;
+    padding-top: 50px;
+    color: #212121;
+}
+
+.SecondSection h3 {
+    margin: auto;
+    padding-top: 60px;
+    color: #757575;
+}
+
+.SecondSection h4 {
+    margin: auto;
+    padding-top: 80px;
+    color: #212121;
+    font-size: 20px;
+}
+
+.SecondSection h5 {
+    margin: auto;
+    padding-top: 10px;
+    color: #757575;
+    font-size: 15px;
 }
