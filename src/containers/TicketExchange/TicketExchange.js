@@ -18,6 +18,8 @@ class TicketExchange extends React.Component {
 
     componentDidMount() {
         //Check local storage for auth
+        localStorage.removeItem('auth')
+        localStorage.removeItem('email')
         if ('auth' in localStorage) {
             this.setState({
                 auth: true,
@@ -67,7 +69,9 @@ class TicketExchange extends React.Component {
                     .catch(err => {
                         console.log('error in login post:', err)
                         this.setState({
-                            error: true
+                            error: true,
+                            wrongPassword: false,
+                            loading: false
                         })
 
                     })
@@ -84,11 +88,16 @@ class TicketExchange extends React.Component {
         if (this.state.auth === false) {
             content = (
                 <Aux>
+                    {this.state.wrongPassword ? <h5 style={{color: "red"}}>Email-Password Combination doesn't Match!</h5> : null}
+                    {this.state.error ? <h5 style={{color: "red"}}>Network Error. Check your Network and Try Again</h5> : null}
                     <Login
                         wrappedComponentRef={this.saveFormRef}
                         onSubmit={this.handleSubmit} />
                 </Aux>
             );
+        }
+        if (this.state.loading) {
+            content = <Spinner />
         }
         return (
             <Aux>
