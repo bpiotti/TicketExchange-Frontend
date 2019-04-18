@@ -35,7 +35,8 @@ class TicketExchange extends React.Component {
         localStorage.removeItem('email')
         this.setState({
             auth: false,
-            email: null
+            email: null,
+            myTickets: false
         })
     }
 

@@ -15,7 +15,8 @@ class TicketTable extends React.Component {
         dataSource: [],
         showModal: false,
         modalLoadButton: false,
-        addTicketError: false
+        addTicketError: false,
+        myTicketsDataSource: []
     }
 
     showModal = () => {
@@ -49,13 +50,14 @@ class TicketTable extends React.Component {
                 .then(response => {
                     console.log('response from server: ', response)
                     this.fetchAllData()
+                    this.fetchMyTickets()
                     this.setState({ modalLoadButton: false, showModal: false, addTicketError: false });
                 })
                 .catch(err => {
                     console.log('error in login post:', err)
                     this.setState({ showModal: true, addTicketError: true, modalLoadButton: false });
                 })
-                
+
         });
     }
 
@@ -64,6 +66,29 @@ class TicketTable extends React.Component {
         this.setState({
             showModal: false,
         });
+    }
+
+    fetchMyTickets = () => {
+        const url = '/getAllTicketsEmail?email=' + this.props.email
+        axios.get(url)
+            .then(response => {
+                console.log(response)
+                const tempData = []
+                for (let key in response.data) {
+                    tempData.push({
+                        ...response.data[key],
+                        price: '$' + response.data[key].price,
+                        key: response.data[key].ticketid,
+                        sellername: response.data[key].sellerlast + ', ' + response.data[key].sellerfirst
+                    })
+                }
+                this.setState({
+                    myTicketsDataSource: tempData
+                })
+            })
+            .catch(err => {
+                console.log('error in ' + url + ': ', err)
+            })
     }
 
     handleSortChange = (value) => {
@@ -115,6 +140,7 @@ class TicketTable extends React.Component {
 
     componentDidMount() {
         this.fetchAllData()
+        this.fetchMyTickets()
     }
 
     saveFormRef = (formRef) => {
@@ -162,7 +188,13 @@ class TicketTable extends React.Component {
             </div>
         )
         if (this.props.myTickets) {
-            content = <h3>MYTICKETS</h3>
+            content = <Table
+                columns={columns}
+                expandedRowRender={record => <p style={{ margin: 0 }}>
+                    {'EMAIL: ' + record.email + ', PHONE: ' + record.phone + ' ----- ' + record.description}</p>}
+                bordered
+                dataSource={this.state.myTicketsDataSource}
+            />
         }
         return (
             <Aux>
