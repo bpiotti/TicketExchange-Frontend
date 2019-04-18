@@ -40,9 +40,9 @@ class TicketExchange extends React.Component {
     }
 
     myTicketsHandler = () => {
-        this.setState({
-            myTickets: true
-        })
+        this.setState((prevState) => ({
+            myTickets: !prevState.myTickets
+        }))
     }
 
     handleLoginSubmit = (event) => {
@@ -104,7 +104,7 @@ class TicketExchange extends React.Component {
         let content = (
             <Aux >
                 <div className="Top">
-                    <Button type="primary" size="large" onClick={this.myTicketsHandler}>My Listings</Button>
+                    <Button type="primary" size="large" onClick={this.myTicketsHandler}>{this.state.myTickets ? "All Listings" : "My Listings"}</Button>
                     <Button type="danger" size="large" onClick={this.logoutHandler}>Logout</Button>
 
                 </div>

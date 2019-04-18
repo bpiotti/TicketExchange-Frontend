@@ -44,7 +44,9 @@ class AddListingModal extends React.Component {
                 okText="Confirm"
                 style={{ overflow: "scroll" }}
                 width="80%"
-                confirmLoading={this.props.confirmLoading}>
+                confirmLoading={this.props.confirmLoading}
+                >
+                {this.props.addTicketError ? <h3 style={{color: "red"}}>Network Error: Could not add ticket at this time</h3> : null}
                 <Form layout="vertical">
                     <Form.Item label="First Name">
                         {getFieldDecorator('sellerfirst', {

@@ -14,7 +14,8 @@ class TicketTable extends React.Component {
     state = {
         dataSource: [],
         showModal: false,
-        modalLoadButton: false
+        modalLoadButton: false,
+        addTicketError: false
     }
 
     showModal = () => {
@@ -30,7 +31,6 @@ class TicketTable extends React.Component {
             if (err) {
                 return;
             }
-            this.setState({ showModal: false });
 
             //Format the current time
             const gametime = values.gametime.format('YYYY-MM-DD HH:mm')
@@ -43,14 +43,19 @@ class TicketTable extends React.Component {
                 email: this.props.email,
                 date: moment().format('YYYY-MM-DD HH:mm'),
             }
+            this.setState({ modalLoadButton: true });
             //Add resource to server
             axios.post('/addTicket', payload)
                 .then(response => {
                     console.log('response from server: ', response)
+                    this.fetchAllData()
+                    this.setState({ modalLoadButton: false, showModal: false, addTicketError: false });
                 })
                 .catch(err => {
                     console.log('error in login post:', err)
+                    this.setState({ showModal: true, addTicketError: true, modalLoadButton: false });
                 })
+                
         });
     }
 
@@ -144,7 +149,8 @@ class TicketTable extends React.Component {
                         onSubmit={this.handleSubmit}
                         show={this.state.showModal}
                         onCancel={this.handleCancel}
-                        modalLoadButton={this.state.modalLoadButton} />
+                        modalLoadButton={this.state.modalLoadButton}
+                        addTicketError={this.state.addTicketError} />
                     : null}
                 <Table
                     columns={columns}
