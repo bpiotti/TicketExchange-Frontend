@@ -3,7 +3,10 @@ import React from 'react';
 import Login from '../Login/Login'
 import Aux from '../../hoc/Aux/Aux'
 import Spinner from '../../components/UI/Spinner'
-import axios from 'axios'
+import axios from '../../axios-instance'
+import "./TicketExchange.css"
+import { Button } from 'antd'
+import TicketTable from '../TicketTable/TicketTable'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
@@ -18,14 +21,21 @@ class TicketExchange extends React.Component {
 
     componentDidMount() {
         //Check local storage for auth
-        localStorage.removeItem('auth')
-        localStorage.removeItem('email')
         if ('auth' in localStorage) {
             this.setState({
                 auth: true,
                 email: localStorage.getItem("email")
             })
         }
+    }
+
+    logoutHandler = () => {
+        localStorage.removeItem('auth')
+        localStorage.removeItem('email')
+        this.setState({
+            auth: false,
+            email: null
+        })
     }
 
     handleSubmit = (event) => {
@@ -41,7 +51,7 @@ class TicketExchange extends React.Component {
                 this.setState({
                     loading: true
                 })
-                axios.post('http://127.0.0.1:8080/cs252lab6/rest/api/login', payload)
+                axios.post('/login', payload)
                     .then(response => {
                         console.log('got response from server')
                         console.log(response)
@@ -84,12 +94,26 @@ class TicketExchange extends React.Component {
     }
 
     render() {
-        let content = <h3>TicketExchange</h3>;
+        let content = (
+            <Aux >
+                <div className="Top">
+                    <Button type="primary" size="large">My Listings</Button>
+                    <Button type="danger" size="large" onClick={this.logoutHandler}>Logout</Button>
+
+                </div>
+                <div className="Main">
+                    <h1>Welcome {this.state.email}</h1>
+                    <TicketTable/>
+                </div>
+            </Aux>
+
+        );
+
         if (this.state.auth === false) {
             content = (
                 <Aux>
-                    {this.state.wrongPassword ? <h5 style={{color: "red"}}>Email-Password Combination doesn't Match!</h5> : null}
-                    {this.state.error ? <h5 style={{color: "red"}}>Network Error. Check your Network and Try Again</h5> : null}
+                    {this.state.wrongPassword ? <h5 style={{ color: "red" }}>Email-Password Combination doesn't Match!</h5> : null}
+                    {this.state.error ? <h5 style={{ color: "red" }}>Network Error. Check your Network and Try Again</h5> : null}
                     <Login
                         wrappedComponentRef={this.saveFormRef}
                         onSubmit={this.handleSubmit} />
