@@ -45,7 +45,7 @@ class TicketExchange extends React.Component {
         })
     }
 
-    handleSubmit = (event) => {
+    handleLoginSubmit = (event) => {
         event.preventDefault();
         const form = this.formRef.props.form;
         form.validateFields((err, values) => {
@@ -110,7 +110,7 @@ class TicketExchange extends React.Component {
                 </div>
                 <div className="Main">
                     <h1>Welcome {this.state.email}</h1>
-                    <TicketTable myTickets={this.state.myTickets}/>
+                    <TicketTable myTickets={this.state.myTickets} email={this.state.email}/>
                 </div>
             </Aux>
 
@@ -123,7 +123,7 @@ class TicketExchange extends React.Component {
                     {this.state.error ? <h5 style={{ color: "red" }}>Network Error. Check your Network and Try Again</h5> : null}
                     <Login
                         wrappedComponentRef={this.saveFormRef}
-                        onSubmit={this.handleSubmit} />
+                        onSubmit={this.handleLoginSubmit} />
                 </Aux>
             );
         }

@@ -6,6 +6,7 @@ import axios from '../../axios-instance'
 import 'antd/lib/table/style/css';
 import './TicketTable.css'
 import AddListingModal from '../../components/AddListingModal/AddListingModal'
+import moment from 'moment'
 
 const Option = Select.Option;
 
@@ -18,28 +19,47 @@ class TicketTable extends React.Component {
 
     showModal = () => {
         this.setState({
-          showModal: true,
+            showModal: true,
         });
-      }
-    
-      handleSubmit = (e) => {
+    }
+
+    handleSubmit = (e) => {
         e.preventDefault()
         const form = this.formRef.props.form;
         form.validateFields((err, values) => {
             if (err) {
                 return;
             }
-            console.log(values)
             this.setState({ showModal: false });
+
+            //Format the current time
+            const gametime = values.gametime.format('YYYY-MM-DD HH:mm')
+            values.gametime = gametime
+
+            //get current data
+            const payload = {
+                ...values,
+                sold: false,
+                email: this.props.email,
+                date: moment().format('YYYY-MM-DD HH:mm'),
+            }
+            //Add resource to server
+            axios.post('/addTicket', payload)
+                .then(response => {
+                    console.log('response from server: ', response)
+                })
+                .catch(err => {
+                    console.log('error in login post:', err)
+                })
         });
-      }
-    
-      handleCancel = (e) => {
+    }
+
+    handleCancel = (e) => {
         console.log(e);
         this.setState({
-          showModal: false,
+            showModal: false,
         });
-      }
+    }
 
     handleSortChange = (value) => {
         console.log(`selected ${value}`);
@@ -102,9 +122,7 @@ class TicketTable extends React.Component {
             { title: 'Date Listed', dataIndex: 'date' },
             { title: 'Seller Name', dataIndex: 'sellername' },
             { title: 'Price', dataIndex: 'price' },
-            // {
-            //     title: 'Action', dataIndex: '', key: 'x', render: () => <a href="javascript:;">Delete</a>,
-            // },
+            { title: 'Game time', dataIndex: 'gametime' }
         ];
 
         let content = (
@@ -125,8 +143,8 @@ class TicketTable extends React.Component {
                         wrappedComponentRef={this.saveFormRef}
                         onSubmit={this.handleSubmit}
                         show={this.state.showModal}
-                        onCancel={this.handleCancel} 
-                        modalLoadButton={this.state.modalLoadButton}/>
+                        onCancel={this.handleCancel}
+                        modalLoadButton={this.state.modalLoadButton} />
                     : null}
                 <Table
                     columns={columns}

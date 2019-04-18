@@ -6,14 +6,25 @@ import { Modal, Input, Form, Select, DatePicker, InputNumber } from 'antd';
 import 'antd/lib/modal/style/css';
 import 'antd/lib/form/style/css';
 import 'antd/lib/input-number/style/css';
+import 'antd/lib/date-picker/style/css';
 
 
 
 class AddListingModal extends React.Component {
 
+    onChange = (value, dateString) => {
+        console.log('Selected Time: ', value);
+        console.log('Formatted Selected Time: ', dateString);
+    }
+
+    onOk = (value) => {
+        console.log('onOk: ', value.format('YYYY-MM-DD HH:mm'));
+
+    }
     render() {
         const { getFieldDecorator } = this.props.form;
         const Option = Select.Option;
+        const { TextArea } = Input;
 
         const eventOptions = (
             [
@@ -61,7 +72,7 @@ class AddListingModal extends React.Component {
                     </Form.Item>
                     <Form.Item label="Event">
                         {getFieldDecorator('event', {
-                            rules: [{ required: true, message: 'Event is Required'}],
+                            rules: [{ required: true, message: 'Event is Required' }],
                         })(
                             <Select
                                 style={{ width: '50%' }}>
@@ -71,9 +82,28 @@ class AddListingModal extends React.Component {
                     </Form.Item>
                     <Form.Item label="Phone Number">
                         {getFieldDecorator('phone', {
-                            rules: [{ required: true, message: 'Phone Number is Required'}],
+                            rules: [{ required: true, message: 'Phone Number is Required' }],
                         })(
                             <Input type="textarea" style={{ width: "50%" }} />
+                        )}
+                    </Form.Item>
+                    <Form.Item label="Game Time">
+                        {getFieldDecorator('gametime', {
+                            rules: [{ required: true, message: 'Game Time is Required' }],
+                        })(
+                            <DatePicker
+                                showTime={{format: "HH:mm"}}
+                                format="YYYY-MM-DD HH:mm"
+                                placeholder="Select Time"
+                                onChange={this.onChange}
+                                onOk={this.onOk}/>
+                        )}
+                    </Form.Item>
+                    <Form.Item label="Description (Opponent, Student Ticket or Not, etc)">
+                        {getFieldDecorator('description', {
+                            rules: [{ required: true, message: 'Description is Required' }],
+                        })(
+                            <TextArea rows={3} style={{ width: "50%" }} />
                         )}
                     </Form.Item>
                 </Form>
