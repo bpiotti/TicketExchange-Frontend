@@ -1,5 +1,6 @@
 .table-operations {
     margin: 10px 16px;
+    display: inline-block;
   }
   
   .table-operations > button {

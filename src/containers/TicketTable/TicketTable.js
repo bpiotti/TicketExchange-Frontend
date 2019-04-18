@@ -1,15 +1,40 @@
 import React from 'react'
 
-import { Table, Button } from 'antd';
+import { Table, Select } from 'antd';
 import Aux from '../../hoc/Aux/Aux'
 import axios from '../../axios-instance'
 import 'antd/lib/table/style/css';
 import './TicketTable.css'
 
+const Option = Select.Option;
+
 class TicketTable extends React.Component {
     state = {
         dataSource: [],
-        myTickets: false
+    }
+
+    handleChange = (value) => {
+        console.log(`selected ${value}`);
+        const url = '/getAllTicketsSort?sort=' + value
+        axios.get(url)
+            .then(response => {
+                console.log(response)
+                const tempData = []
+                for (let key in response.data) {
+                    tempData.push({
+                        ...response.data[key],
+                        price: '$' + response.data[key].price,
+                        key: response.data[key].ticketid,
+                        sellername: response.data[key].sellerlast + ', ' + response.data[key].sellerfirst
+                    })
+                }
+                this.setState({
+                    dataSource: tempData
+                })
+            })
+            .catch(err => {
+                console.log('error in ' + url + ': ', err)
+            })
     }
 
     componentDidMount() {
@@ -24,10 +49,10 @@ class TicketTable extends React.Component {
                         key: response.data[key].ticketid,
                         sellername: response.data[key].sellerlast + ', ' + response.data[key].sellerfirst
                     })
-                    this.setState({
-                        dataSource: tempData
-                    })
                 }
+                this.setState({
+                    dataSource: tempData
+                })
 
             })
             .catch(err => {
@@ -49,8 +74,13 @@ class TicketTable extends React.Component {
         let content = (
             <div>
                 <div className="table-operations">
-                    <Button onClick={this.clearFilters}>Clear filters</Button>
-                    <Button onClick={this.clearAll}>Clear filters and sorters</Button>
+                    <Select placeholder="Sort:" style={{ width: 120 }} onChange={this.handleChange}>
+                        <Option value="Basketball">Basketball</Option>
+                        <Option value="Football">Football</Option>
+                        <Option value="Concert">Concert</Option>
+                        <Option value="Baseball">Baseball</Option>
+                        <Option value="Other">Other</Option>
+                    </Select>
                 </div>
                 <Table
                     columns={columns}
@@ -61,7 +91,7 @@ class TicketTable extends React.Component {
                 />
             </div>
         )
-        if (this.state.myTickets) {
+        if (this.props.myTickets) {
             content = <h3>MYTICKETS</h3>
         }
         return (

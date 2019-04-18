@@ -16,7 +16,8 @@ class TicketExchange extends React.Component {
         email: null,
         loading: false,
         error: false,
-        wrongPassword: false
+        wrongPassword: false,
+        myTickets: false
     }
 
     componentDidMount() {
@@ -35,6 +36,12 @@ class TicketExchange extends React.Component {
         this.setState({
             auth: false,
             email: null
+        })
+    }
+
+    myTicketsHandler = () => {
+        this.setState({
+            myTickets: true
         })
     }
 
@@ -97,13 +104,13 @@ class TicketExchange extends React.Component {
         let content = (
             <Aux >
                 <div className="Top">
-                    <Button type="primary" size="large">My Listings</Button>
+                    <Button type="primary" size="large" onClick={this.myTicketsHandler}>My Listings</Button>
                     <Button type="danger" size="large" onClick={this.logoutHandler}>Logout</Button>
 
                 </div>
                 <div className="Main">
                     <h1>Welcome {this.state.email}</h1>
-                    <TicketTable/>
+                    <TicketTable myTickets={this.state.myTickets}/>
                 </div>
             </Aux>
 
