@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import 'semantic-ui-css/semantic.css';
 
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { BrowserRouter } from 'react-router-dom'
+import { HashRouter } from 'react-router-dom'
 import axios from 'axios'
 
 axios.interceptors.request.use(request => {
@@ -13,7 +12,7 @@ axios.interceptors.request.use(request => {
     return request;
 }, error => {
     console.log(error);
-    return Promise.reject(error); 
+    return Promise.reject(error);
 });
 
 
@@ -22,13 +21,13 @@ axios.interceptors.response.use(response => {
     return response;
 }, error => {
     console.log(error);
-    return Promise.reject(error); 
+    return Promise.reject(error);
 });
 
 const app = (
-    <BrowserRouter base="/">
+    <HashRouter>
         <App />
-    </BrowserRouter>
+    </HashRouter>
 )
 
 ReactDOM.render(app, document.getElementById('root'));
